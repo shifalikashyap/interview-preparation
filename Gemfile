@@ -73,3 +73,6 @@ end
 
 gem 'devise'
 gem 'cssbundling-rails'
+
+
+gem "prawn", "~> 2.4"

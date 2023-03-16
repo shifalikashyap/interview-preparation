@@ -10,8 +10,4 @@ class User < ApplicationRecord
 
  private
 
-  def after_confirmation
-    WelcomeMailer.send_greetings_notification(self)
-                 .deliver_now
-  end
 end
