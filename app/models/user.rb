@@ -8,6 +8,4 @@ class User < ApplicationRecord
          :validatable,
          :trackable
 
- private
-
 end
