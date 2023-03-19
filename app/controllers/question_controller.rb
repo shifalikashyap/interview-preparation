@@ -7,10 +7,9 @@ class QuestionController < ApplicationController
     question_pdf = Prawn::Document.new
     question_pdf.repeat (:all)  do
       question_pdf.bounding_box([question_pdf.bounds.left, question_pdf.bounds.top], width: question_pdf.bounds.width) do 
-        question_pdf.text "Ruby on Rails Interview Questions- Appsimpact Academy", :size => 21, :align => :center, :color => "0000ff",font: "Times-Roman"
+        question_pdf.text "Ruby on Rails Interview Questions- Appsimpact Academy", :size => 21, :align => :center, :color => "0000ff", font: "Times-Roman"
         question_pdf.stroke_horizontal_rule
       end
-
       question_pdf.move_down 30
     end
 
@@ -18,7 +17,7 @@ class QuestionController < ApplicationController
 
       question_pdf.font('Helvetica') do
         Question.all.each_with_index do |question, index|
-          question_pdf.text "#{index+1}. #{question.title}", top_margin: 60
+          question_pdf.text "#{index+1}. #{question.title}", :'line-height' => 2
         end
       end
       send_data(question_pdf.render,
