@@ -4,23 +4,47 @@ class QuestionController < ApplicationController
   end
 
   def download
-    pdf = Prawn::Document.new
-    pdf.text "100+ Ruby on Rails Interview Questions", :size => 20, :align => :center, :text => :bold, :header => true
-    # pdf.text "*********RubyOnRails**********", :align => :center
-    pdf.stroke_horizontal_rule
-    # pdf.data = [["Ruby on interview question"]]
-    # pdf.data += [["Ruby on interview question"]] * 30
-    pdf.font "Times-Roman"
-    pdf.move_down 25
-    # respond_to do |format|
-    # format.pdf do
-        # headers["Content-Disposition", "ror"] = "attachment; filename=\"charts-#{Time.now.to_i}.pdf\"", "ror-faq"
-      
-  
-      Question.all.each_with_index do |question, index|
-        pdf.text "#{index+1}. #{question.title}", top_margin: 60
+    question_pdf = Prawn::Document.new
+    question_pdf.repeat (:all)  do
+      question_pdf.bounding_box([question_pdf.bounds.left, question_pdf.bounds.top], width: question_pdf.bounds.width) do 
+        question_pdf.text "Ruby on Rails Interview Questions- Appsimpact Academy", :size => 21, :align => :center, :color => "0000ff",font: "Times-Roman"
+        question_pdf.stroke_horizontal_rule
+      end
+
+      question_pdf.move_down 30
     end
 
+    question_pdf.bounding_box([question_pdf.bounds.left, question_pdf.cursor], width: question_pdf.bounds.width, height: question_pdf.cursor) do
+
+      question_pdf.font('Helvetica') do
+        Question.all.each_with_index do |question, index|
+          question_pdf.text "#{index+1}. #{question.title}", top_margin: 60
+        end
+      end
+      send_data(question_pdf.render,
+        filename: "ror-faq.pdf",
+        type: 'application/pdf',
+        disposition: 'inline')
+    end
+  end
+
+
+# post_pdf = Prawn::Document.new
+#     post_pdf.repeat(:all) do
+#       post_pdf.bounding_box([post_pdf.bounds.left, post_pdf.bounds.top], width: post_pdf.bounds.width) do
+#         post_pdf.text 'Blogging App', size: 35, style: :bold, align: :center, font: 'Helvetica'
+#         post_pdf.stroke_horizontal_rule
+#       end
+#       post_pdf.move_down 30
+#     end
+
+#     post_pdf.bounding_box([post_pdf.bounds.left, post_pdf.cursor], width: post_pdf.bounds.width, height: post_pdf.cursor) do
+#       post_pdf.font('Helvetica') do
+#         post_pdf.text @post.title, size: 30, style: :bold, align: :center
+#       end
+#       post_pdf.text @post.description
+#     end 
+#     send_data(post_pdf.render, filename: "#{@post.title}.pdf", type: 'application/pdf', disposition: 'inline')
 
 
 
@@ -33,11 +57,11 @@ class QuestionController < ApplicationController
     #   pdf.text "And here's a sexy footer - #{page_count}", :size => 16
     # end
 
-    send_data(pdf.render,
-      filename: "ror-faq.pdf",
-      type: 'application/pdf',
-      disposition: 'inline')
-  end
+  #   send_data(pdf.render,
+  #     filename: "ror-faq.pdf",
+  #     type: 'application/pdf',
+  #     disposition: 'inline')
+  # end
 
   # def preview
   #   pdf = Prawn::Document.new
