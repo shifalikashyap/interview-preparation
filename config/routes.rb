@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   }
 
   # get 'questions/pdf/:id', to: 'questions#pdf', as: 'question_pdf'
-  # resources :questions
+  
   get 'download', to: 'question#download'
   get 'preview', to: 'question#preview'
   root 'question#index'
+  resources :plans
 end
