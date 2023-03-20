@@ -17,7 +17,8 @@ class QuestionController < ApplicationController
 
       question_pdf.font('Helvetica') do
         Question.all.each_with_index do |question, index|
-          question_pdf.text "#{index+1}. #{question.title}", :'line-height' => 2
+          question_pdf.text "#{index+1}. #{question.title}"
+          question_pdf.move_down 5
         end
       end
       send_data(question_pdf.render,
