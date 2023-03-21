@@ -73,6 +73,5 @@ end
 
 gem 'devise'
 gem 'cssbundling-rails'
-
-
+gem 'razorpay'
 gem "prawn", "~> 2.4"
